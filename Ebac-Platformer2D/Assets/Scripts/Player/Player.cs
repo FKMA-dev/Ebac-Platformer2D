@@ -21,6 +21,14 @@ public class Player : MonoBehaviour
     public float animationDuration = .3f;
     public Ease ease = Ease.OutBack;
 
+    [Header("Animation ANM")]
+
+    public Animator animator;
+    public string runBool = "RunBool";
+    public string jumpTrigger = "JumpTrigger";
+    public string jumpDownBool = "JumpDownBool";
+    public bool _isFlying = false;
+
 
     public float forceJump;
     public Rigidbody2D rig;
@@ -45,10 +53,18 @@ public class Player : MonoBehaviour
         if (Input.GetKey(KeyCode.LeftArrow))
         {
             rig.linearVelocity = new Vector2(-_currentSpeed, rig.linearVelocity.y);
+            rig.transform.localScale = new Vector3(-1, 1, 1);
+            animator.SetBool(runBool, true);
         }
         else if (Input.GetKey(KeyCode.RightArrow))
         {
             rig.linearVelocity = new Vector2(+_currentSpeed, rig.linearVelocity.y);
+            rig.transform.localScale = new Vector3(1, 1, 1);
+            animator.SetBool(runBool, true);
+        }
+        else
+        {
+            animator.SetBool(runBool, false);
         }
 
         if (rig.linearVelocity.x > 0)
@@ -68,16 +84,24 @@ public class Player : MonoBehaviour
         {
             rig.linearVelocity = Vector2.up * forceJump;
             rig.transform.localScale = Vector2.one;
-            _isGround = true;
+            animator.SetTrigger(jumpTrigger);
+            // _isGround = true;
+            _isFlying = true;
+            if (_isFlying)
+            {
+                animator.SetBool(jumpDownBool, true);
+                _isFlying = false;
+            }
 
-            DOTween.Kill(rig.transform);
-            ScaleJump();
+
+           // DOTween.Kill(rig.transform);
+            //ScaleJump();
         }
 
 
     }
 
-    public void ScaleJump()
+   /* public void ScaleJump()
     {
         rig.transform.DOScaleY(jumpScaleY, animationDuration).SetLoops(2, LoopType.Yoyo).SetEase(ease);
         rig.transform.DOScaleX(jumpScaleX, animationDuration).SetLoops(2, LoopType.Yoyo).SetEase(ease);
@@ -95,6 +119,6 @@ public class Player : MonoBehaviour
                 _isGround = false;
             }
         }
-    }
+    }*/
 
 }
