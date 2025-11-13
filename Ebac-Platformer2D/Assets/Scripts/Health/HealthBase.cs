@@ -6,6 +6,7 @@ public class HealthBase : MonoBehaviour
     public int startLife = 10;
     private int _currentLife;
     public float delayToDestroy;
+    [SerializeField] private FlashDamage _flashDamage;
 
     private bool _isDead = false;
     public bool _destroyOnKill = false;
@@ -13,6 +14,10 @@ public class HealthBase : MonoBehaviour
     private void Awake()
     {
         Initial();
+        if(_flashDamage == null)
+        {
+            _flashDamage = GetComponent<FlashDamage>();
+        }
     }
 
     private void Initial()
@@ -30,6 +35,11 @@ public class HealthBase : MonoBehaviour
         if (_currentLife <= 0)
         {
             Kill();
+        }
+
+        if(_flashDamage != null)
+        {
+            _flashDamage.Flash();
         }
     }
     
