@@ -83,7 +83,7 @@ public class Player : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space))
         {
             rig.linearVelocity = Vector2.up * forceJump;
-            rig.transform.localScale = Vector2.one;
+            //rig.transform.localScale = Vector2.one;
             animator.SetTrigger(jumpTrigger);
             // _isGround = true;
             _isFlying = true;
